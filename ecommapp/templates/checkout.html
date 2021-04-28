@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout{% endblock title %}
+
+{% block body %}
+<div class="container my-3">
+    <h3>Step 1- Review Your Cart Items</h3>
+    <div class="container my-4 col-12">
+        <ul class="list-group" id="items">
+        </ul>
+        <!-- A form for address details -->
+        <div class="col-12">
+            <a href="/address"><button class="btn btn-danger float-end" type="submit">Next</button></a>
+        </div>
+    </div>
+
+</div>
+
+
+{%block js%}
+<script>
+
+    if (localStorage.getItem('cart') == null) {
+        var cart = {}; //Make a new cart
+    }
+    else {
+        cart = JSON.parse(localStorage.getItem('cart'));
+        updateCart(cart);
+    }
+
+    function updateCart(cart) {
+        var num = 0;
+        for (var i in cart)
+            num += (cart[i][0]);
+
+        localStorage.setItem('cart', JSON.stringify(cart)); //Failing to do this will lead to loss of data of cart when page is reloaded
+        document.getElementById('cart').innerHTML = num;
+        console.log(cart);
+    }
+
+    if ($.isEmptyObject(cart)){
+        mystr = `<p>Your cart is empty. Please add some more items before proceeding!</p>`
+        $('#items').append(mystr); 
+    }
+    else {
+        //js to display the cart items on checkout page
+        for (i in cart) {
+            let qty = cart[i][0];
+            let name = cart[i][1];
+            let price = cart[i][2];
+            let img = cart[i][3];
+            mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
+                
+                <div class="ms-2 me-auto">
+                    <img src="${img}" height="200" width="160">
+                    <div class="fw-bold">${name}</div>
+                    ${price}
+                </div>
+                
+                <span class="badge bg-danger rounded-pill">${qty}</span>
+            </li>`
+            $('#items').append(mystr); //jQuery, Here even though items is an id, # is used for appending
+        }
+    }
+
+</script>
+
+{%endblock%}
+{% endblock body %}

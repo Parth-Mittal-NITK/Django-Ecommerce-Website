@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}{{product.product_name}} | ArtByMonika{% endblock title %}
+{% comment %} We dont use Product here because we passed product in the method of productview under views.py
+{%endcomment%}
+
+
+{% block body %}
+<div class="container my-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row">
+                <img src="/media/{{product.image}}" height="440" >
+            </div>
+
+            <div class="row my-2">
+                <div class="col">
+                    <button type="button" class="btn btn-warning mx-4">Buy Now</button>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-success cart">Add To Cart</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-8">
+            <h2>{{product.product_name}}</h2>
+            <h3><b>₹{{product.price}}</b></h3>
+            <p>{{product.desc}}</p>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{%block js%}
+<script>
+    function updateCart(cart) {
+        var num = 0;
+        for (var i in cart)
+            num += (cart[i][0]);
+
+        localStorage.setItem('cart', JSON.stringify(cart)); //Failing to do this will lead to loss of data of cart when page is reloaded
+        document.getElementById('cart').innerHTML = num;
+        console.log(cart);
+    }
+    //Find out the cart from the local storage
+    if (localStorage.getItem('cart') == null) {
+        var cart = {}; //Make a new cart
+    }
+    else {
+        cart = JSON.parse(localStorage.getItem('cart'));
+        updateCart(cart);  //Update existing cart
+    }
+
+    // using some jQuery
+    $('.divpr').on('click', 'button.cart', function () {
+
+        var idStr = this.id.toString(); //divpr's button's id like pr1, etc ; toString bcz only strings are accepted
+        if (cart[idStr] != undefined) {
+            var qty = cart[idStr][0] + 1;
+            cart[idStr] = [qty, name, price, img];
+            // name = "My item"; //No need to change the name if that item is already present
+        }
+        else {
+            qty = 1;
+            name = document.getElementById('name' + idStr).innerHTML; //idStr is like pr1, pr2. Thus, target by name etc (id of card title)
+            price = document.getElementById('price' + idStr).innerHTML; 
+            img = document.getElementById('img' + idStr).src; 
+            cart[idStr] = [qty, name, price, img];
+        }
+        updateCart(cart);
+    });
+
+    
+</script>
+
+{%endblock%}
+{% endblock body %}

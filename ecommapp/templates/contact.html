@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us{% endblock title %}
+
+{% block body %}
+
+<div class="container">
+    <h2 class="text-center">Contact Us</h2>
+    <form method="POST" action="/contact/">
+        {% csrf_token %}
+        <!-- Go to 1:51:27 -->
+        <div class="form-group mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" name="name"
+                placeholder="Enter your Name">
+        </div>
+        <div class="form-group mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email address">
+        </div>
+        <div class="form-group mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <input type="number" class="form-control" id="phone" name="phone" placeholder="Enter your phone number">
+        </div>
+        <div class="form-group mb-3">
+            <label for="desc" class="form-label">How may we help you?</label>
+            <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-dark">Submit</button>
+    </form>
+
+</div>
+{%block js%}
+<script>
+    var num = 0;
+    if (localStorage.getItem('cart') == null) {
+        var cart = {};
+    }
+    else {
+        cart = JSON.parse(localStorage.getItem('cart'));
+
+        for (var i in cart)
+            num += parseInt(cart[i]);
+        // for (var i = 0; i < Object.values(cart).length; i++)
+        //     num += Object.values((cart)[i]);
+        // document.getElementById('cart').innerHTML = Object.keys(cart).length; //To update number of distinct items in cart
+
+        document.getElementById('cart').innerHTML = num;
+    }
+    // using some jQuery
+    $('.cart').click(function () {
+        // console.log('clicked');
+        var idStr = this.id.toString(); //bcz only strings are accepted
+        // console.log(idStr);
+        if (cart[idStr] != undefined) {
+            cart[idStr] = cart[idStr] + 1;
+        }
+        else {
+            cart[idStr] = 1;
+        }
+        console.log(cart);
+        localStorage.setItem('cart', JSON.stringify(cart)); //Failing to do this will lead to loss 
+        //of data of cart when page is reloaded
+        document.getElementById('cart').innerHTML = num;
+
+
+    });
+
+</script>
+
+{%endblock%}
+{% endblock body %}
