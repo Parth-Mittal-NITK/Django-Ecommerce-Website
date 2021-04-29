@@ -60,4 +60,5 @@ def address(request):
         order = Order(items_json = items_json, name=name, email=email, address=address,
         city = city, state=state, zip_code=zip_code, phone=phone) #<Inside_model_name> = <variable_inside_funciton>
         order.save()
-    return render(request, 'address.html')
+        ordered = True #To complete the process of checkout
+    return render(request, 'address.html', {'ordered':ordered})
