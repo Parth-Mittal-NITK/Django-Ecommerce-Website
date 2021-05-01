@@ -26,8 +26,7 @@ class Contact(models.Model):
 class Order(models.Model):
     items_json = models.CharField(max_length=5000, default="", null=True)
     name = models.CharField(max_length=100, default="")
-    email = models.CharField(max_length=100 , default="")
-    address = models.CharField(max_length=100 , default="")
+    addressline = models.CharField(max_length=100 , default="")
     city = models.CharField(max_length=50 , default="")
     state = models.CharField(max_length=50 , default="")
     zip_code = models.CharField(max_length=10 , default="")

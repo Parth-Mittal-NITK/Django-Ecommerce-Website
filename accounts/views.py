@@ -28,7 +28,7 @@ def register(request):
                 user = User.objects.create_user(first_name= first_name, last_name = last_name, username= username, email= email, password=password1)
                 user.save()
                 adddress = Address(user=user, addressline = addressline, city = city, state = state, zip_code = zip_code, phone = phone)
-                adddress.save()
+                adddress.save() #need to save user and address separately even though they are linked
                 auth.login(request, user) #Register and automatically login also
                 return redirect('/')
             else:

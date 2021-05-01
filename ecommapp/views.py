@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from ecommapp.models import Product, Contact, Order
-from math import ceil
+from django.contrib.auth.models import User, auth
+from accounts.models import Address
 from django.contrib import messages
 from datetime import datetime
-from django.contrib.auth.models import User, auth
+from math import ceil
 from django.contrib.auth import logout
 # Create your views here.
 def index(request):
@@ -38,27 +39,26 @@ def productview(request, myid):
     return render(request, 'productview.html', {'product':product[0]}) #Since ids are unique, there will be only one item with each id
 
 def checkout(request):
-    if request.user.is_authenticated:    
-        return render(request, 'checkout.html')
-    else:
-        return redirect('login')
-
-def tracker(request):
-    return render(request, 'tracker.html')
-def address(request):
     if request.method == 'POST':
+        
         items_json = request.POST.get("items_json") #Inside "" is the same as defined in the model
-                                                    #and same as the name attribute in the particular field of the form  
-        name = request.POST.get("name")
-        email = request.POST.get("email")
-        address = request.POST.get("address1")+ " " + request.POST.get("address2") #We will keep the entire address in one
-        city = request.POST.get("city")                                            #address1 and address2 matches with name attributes
-        state = request.POST.get("state")
-        zip_code = request.POST.get("zip_code")
-        phone = request.POST.get("phone")
-        #Create an Order object named order
-        order = Order(items_json = items_json, name=name, email=email, address=address,
+                                                   #and same as the name attribute in the particular field of the form  
+        name = request.user.first_name + " " + request.user.last_name #Important to use 'request.'user
+        addressline = request.user.address.addressline
+        city = request.user.address.city
+        state = request.user.address.state
+        zip_code = request.user.address.zip_code
+        phone = request.user.address.phone
+
+        # Create an Order object named order
+        order = Order(items_json = items_json, name=name, addressline=addressline,
         city = city, state=state, zip_code=zip_code, phone=phone) #<Inside_model_name> = <variable_inside_funciton>
+        # order = Order(name = name, items_json = items_json)
         order.save()
         ordered = True #To complete the process of checkout
-    return render(request, 'address.html', {'ordered':ordered})
+        return render(request, 'checkout.html', {'ordered':ordered})
+    else:
+        if request.user.is_authenticated:    
+            return render(request, 'checkout.html')
+        else:
+            return redirect('login')
