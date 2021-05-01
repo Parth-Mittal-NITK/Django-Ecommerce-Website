@@ -4,13 +4,22 @@
 
 {% block body %}
 <div class="container my-3">
-    <h3>Step 1- Review Your Cart Items</h3>
+    <h3>Review Your Cart Items</h3>
     <div class="container my-4 col-12">
         <ul class="list-group" id="items">
         </ul>
+        <br>
+        <h5 style="text-align:end"> Total = ₹<span id="totalPrice"></span> </h5>
+        <div class="container">
+            <h3>Delivery Details</h3>
+            <p>{{user.first_name}} {{user.last_name}}</p>
+            <p>{{user.address.addressline}}</p>
+            <p>{{user.address.city}}, {{user.address.state}} -{{user.address.zip_code}} </p>
+            <p>{{user.address.phone}}</p>
+        </div>
         <!-- A form for address details -->
         <div class="col-12">
-            <a href="/address"><button class="btn btn-danger float-end" type="submit">Next</button></a>
+            <a href="/address"><button class="btn btn-danger float-end" type="submit">Place Order</button></a>
         </div>
     </div>
 
@@ -35,7 +44,7 @@
 
         localStorage.setItem('cart', JSON.stringify(cart)); //Failing to do this will lead to loss of data of cart when page is reloaded
         document.getElementById('cart').innerHTML = num;
-        console.log(cart);
+        //console.log(cart);
     }
 
     if ($.isEmptyObject(cart)){
@@ -44,23 +53,32 @@
     }
     else {
         //js to display the cart items on checkout page
+        var totalPrice = 0;
+        var itemPrice = 0;
+        
         for (i in cart) {
             let qty = cart[i][0];
             let name = cart[i][1];
             let price = cart[i][2];
             let img = cart[i][3];
+            
+            itemPrice = parseInt(qty)*parseInt(price.slice(1,));
+            totalPrice += itemPrice;
+            
             mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
                 
                 <div class="ms-2 me-auto">
                     <img src="${img}" height="200" width="160">
                     <div class="fw-bold">${name}</div>
-                    ${price}
+                    <p>${price}*${qty} = ₹${itemPrice}<p>
                 </div>
                 
                 <span class="badge bg-danger rounded-pill">${qty}</span>
             </li>`
             $('#items').append(mystr); //jQuery, Here even though items is an id, # is used for appending
         }
+        document.getElementById('totalPrice').innerHTML = totalPrice;
+        //console.log(totalPrice);
     }
 
 </script>

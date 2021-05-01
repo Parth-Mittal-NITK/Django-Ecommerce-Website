@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth #User is like a predifined model
+from accounts.models import Address
 from django.contrib import messages #To use messages form Django
 # Create your views here.
 def register(request):
@@ -10,6 +11,11 @@ def register(request):
         email = request.POST['email']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
+        addressline = request.POST['addressline1'] + " " + request.POST['addressline2']
+        city = request.POST['city']
+        state = request.POST['state']
+        zip_code = request.POST['zip_code']
+        phone = request.POST['phone']
 
         if User.objects.filter(username = username).exists():
             messages.info(request, 'Oops! User name already taken')
@@ -21,6 +27,8 @@ def register(request):
             if password1 == password2:
                 user = User.objects.create_user(first_name= first_name, last_name = last_name, username= username, email= email, password=password1)
                 user.save()
+                adddress = Address(user=user, addressline = addressline, city = city, state = state, zip_code = zip_code, phone = phone)
+                adddress.save()
                 auth.login(request, user) #Register and automatically login also
                 return redirect('/')
             else:

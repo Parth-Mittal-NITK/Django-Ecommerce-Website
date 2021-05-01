@@ -29,30 +29,56 @@
     <form class="row g-3" action="register" method="post">
       {% csrf_token %}
       <div class="col-md-6">
-        <label for="inputName" class="form-label">First Name</label>
-        <input type="text" class="form-control" id="inputEmail4" name="first_name" placeholder="Enter your First Name">
+        <label for="first_name" class="form-label">First Name</label>
+        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter your First Name">
       </div>
       <div class="col-md-6">
-        <label for="inputName" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="inputEmail4" name="last_name" placeholder="Enter your Last Name">
+        <label for="last_name" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter your Last Name">
       </div>
       <div class="col-12">
-        <label for="inputName" class="form-label">User Name</label>
-        <input type="text" class="form-control" id="inputAddress" name="username" placeholder="Enter your User Name">
+        <label for="username" class="form-label">User Name</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="Enter your User Name">
       </div>
       <div class="col-12">
-        <label for="inputEmail4" class="form-label">Email</label>
-        <input type="email" class="form-control" id="inputEmail4" name="email" placeholder="Enter your Email">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email">
       </div>
       <div class="col-md-6">
-        <label for="inputPassword4" class="form-label">Password</label>
-        <input type="password" class="form-control" id="inputPassword4" name="password1"
+        <label for="password1" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password1" name="password1"
           placeholder="Enter your Password">
       </div>
       <div class="col-md-6">
-        <label for="inputPassword4" class="form-label">Confirm Password</label>
-        <input type="password" class="form-control" id="inputPassword4" name="password2"
+        <label for="password2" class="form-label">Confirm Password</label>
+        <input type="password" class="form-control" id="password2" name="password2"
           placeholder="Confirm your Password">
+      </div>
+      <div class="col-12">
+        <label for="addressline1" class="form-label">Address Line 1</label>
+        <input type="text" class="form-control" id="addressline1" placeholder="1234 Main St" name="addressline1">
+      </div>
+      <div class="col-12">
+        <label for="addressline2" class="form-label">Address Line 2</label>
+        <input type="text" class="form-control" id="addressline2" placeholder="Apartment, studio, or floor"
+          name="addressline2">
+      </div>
+      <div class="col-md-6">
+        <label for="city" class="form-label">City</label>
+        <input type="text" class="form-control" id="city" name="city">
+      </div>
+      <div class="col-md-4">
+        <label for="state" class="form-label">State</label>
+        <input type="text" class="form-control" id="state" name="state">
+      </div>
+
+      <div class="col-md-2">
+        <label for="zip_code" class="form-label">Zip Code</label>
+        <input type="text" class="form-control" id="zip_code" name="zip_code">
+      </div>
+      <div class="col-12">
+        <label for="phone" class="form-label">Phone No</label>
+        <input type="text" class="form-control" id="phone" name="phone">
       </div>
       <div class="col-12">
         <button type="submit" class="btn btn-primary">Register</button>
