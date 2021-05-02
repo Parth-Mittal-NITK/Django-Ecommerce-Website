@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock title %}
+
+{% block body %}
+<div class="container my-2">
+    <br>
+    <h3>Hello, {{user.first_name}} {{user.last_name}}</h3><br>
+    <p><b>Email:</b>{{user.email}}</p>
+    <p><b>Phone:</b>{{user.address.phone}}</p>
+    <br>
+    <br>
+
+    <h4>Delivery Details</h4><br>
+    <p>{{user.address.addressline}} <br>
+        {{user.address.city}}, {{user.address.state}} -{{user.address.zip_code}} <br>
+        {{user.address.phone}}</p>
+</div>
+
+{%block js%}
+<script>
+    function updateCart(cart) {
+        var num = 0;
+        for (var i in cart)
+            num += (cart[i][0]);
+
+        localStorage.setItem('cart', JSON.stringify(cart)); //Failing to do this will lead to loss of data of cart when page is reloaded
+        document.getElementById('cart').innerHTML = num;
+        console.log(cart);
+    }
+    //Find out the cart from the local storage
+    if (localStorage.getItem('cart') == null) {
+        var cart = {}; //Make a new cart
+    }
+    else {
+        cart = JSON.parse(localStorage.getItem('cart'));
+        updateCart(cart);  //Update existing cart
+    } 
+
+</script>
+
+{%endblock%}
+
+{% endblock body %}

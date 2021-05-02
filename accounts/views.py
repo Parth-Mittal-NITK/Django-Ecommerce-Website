@@ -58,3 +58,6 @@ def logout(request):
     auth.logout(request)
     messages.success(request, 'You have been successfully logged out!')
     return redirect('/')
+
+def profile(request):
+    return render(request, 'profile.html')
