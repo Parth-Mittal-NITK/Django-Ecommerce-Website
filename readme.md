@@ -1,4 +1,4 @@
-# Django_Ecommerce_Website
+# Django Ecommerce Website
 My first website using Django's Model View Template architecture
 
 <h3>Installing and using a Virtual Environment</h3>
