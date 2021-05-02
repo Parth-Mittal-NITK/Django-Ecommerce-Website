@@ -8,7 +8,6 @@ from math import ceil
 from django.contrib.auth import logout
 # Create your views here.
 def index(request):
-    data = Product.objects.all() #get all products under Product
     all_products = []
     category_products = Product.objects.values('category','id') #get the different categories
     categories = {item['category'] for item in category_products} #list of categories using list comprehension
@@ -19,8 +18,35 @@ def index(request):
         all_products.append([prod,range(1,nSlides),nSlides])  #Ask about this line
     params = {'all_products': all_products} #bcz render accepts only a dictionary, params is just all_products but as a dict
     return render(request,'index.html', params)
-    
 
+# A function for searching to work
+def searchMatch(query, item):
+    #Don't give == because we want part of it matching too
+    if (query in item.desc.lower() or query in item.product_name.lower() or query in item.category.lower() or query in item.desc or query in item.product_name or query in item.category):
+        return True
+    else:
+        return False
+
+def search(request):
+    query = request.GET.get('search') #Whatever is typed inside the search box by the user
+    all_products = []
+    category_products = Product.objects.values('category','id') 
+    categories = {item['category'] for item in category_products}
+    for category in categories: 
+        prod = Product.objects.filter(category = category)
+        prodtemp = [item for item in prod if searchMatch(query, item)] #List of only those items that match the search query in respective category                                                                   
+        n = len(prodtemp) #Length of above list
+        nSlides = n//4 + ceil(n/4-n//4) 
+        if n !=0:
+            all_products.append([prodtemp,range(1,nSlides),nSlides])  #Ask about this line
+    params = {'all_products': all_products, "msg":""}
+    if len(all_products) == 0 or len(query)<4:
+        params = {'msg': "Please make sure to enter relevant search query"}
+        # else:
+        #     params  = {"msg":"No results found"}
+     
+    return render(request,'search.html', params)
+    
 def contact(request):
     if request.method == "POST":
         name = request.POST.get("name")

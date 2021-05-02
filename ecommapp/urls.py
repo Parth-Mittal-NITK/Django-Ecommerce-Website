@@ -5,6 +5,7 @@ from ecommapp import views
 urlpatterns = [
     path("",views.index, name="index"),
     path("contact",views.contact, name="contact"),
+    path("search",views.search, name="search"),
     path("productview/<int:myid>",views.productview, name="productview"), #That <int:myid> lets create a diff page for each produc
     path("checkout",views.checkout, name="checkout"),
 ]
