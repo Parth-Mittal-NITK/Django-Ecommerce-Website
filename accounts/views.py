@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth #User is like a predifined model
 from accounts.models import Address
 from django.contrib import messages #To use messages form Django
+from .forms import * #To use ModelForms
 # Create your views here.
 def register(request):
     if request.method == 'POST':
@@ -61,3 +62,20 @@ def logout(request):
 
 def profile(request):
     return render(request, 'profile.html')
+
+def edit_profile(request):
+    myemail = request.user.email
+    thisuser = User.objects.get(email=myemail)
+    form = AddressForm(instance=request.user.address)
+    params = {'form':form}
+
+    if request.method == 'POST':    
+        form = AddressForm(request.POST, instance = request.user.address)
+        if form.is_valid():
+            print('valid form')
+            form.save()
+            
+            return redirect('profile')
+        else:
+            print('invlaid')
+    return render(request,'edit_profile.html', params)

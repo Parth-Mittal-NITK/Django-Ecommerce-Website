@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{user.first_name}}</title>
+</head>
+
+<body>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <!-- {{form}} -->
+        <p>AdressLine: {{form.addressline}}</p><br>
+        <p>City: {{form.city}}</p><br>
+        <p>State: {{form.state}}</p><br>
+        <p>Pin Code: {{form.zip_code}}</p><br>
+        <p>Phone No: {{form.phone}}</p><br>
+        <button type="submit">Done</button>
+
+    </form>
+</body>
+
+</html>
